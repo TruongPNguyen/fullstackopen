@@ -1,0 +1,27 @@
+title 0.6 New Note in Single Page App Diagram
+
+note over browser:
+The POST request contains both the content
+of the new note and the timestamp, and 
+has a Content-Type header to let the server
+know the data is represented in JSON format
+end note
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over browser:
+No required redirect or further HTTP requests
+end note
+
+note over browser:
+Event handler prevents default handling of 
+form. It will create a new note and rerenders
+the note list, then sends the new note to the 
+server
+end note
+
+server-->browser: Status code 201 created
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note

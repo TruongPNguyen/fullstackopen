@@ -16,18 +16,22 @@ morgan.token("post", (request) => {
 
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :post"))
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     Person.find({})
         .then(persons => {
-        response.json(persons)
+            response.json(persons)
         })
+        .catch(error => next(error))
 })
 
-app.get("/info", (request, response) => {
-    response.send(
-        `<p>Phonebook has info for ${persons.length} people <p>
-        <p> ${new Date()} <p>`
-    )
+app.get("/info", (request, response, next) => {
+    Person.find({})
+        .then(persons => {
+            response.send(
+                `<p> Phonebook has info for ${persons.length} people </p>
+                 <p> ${new Date()} </p>`
+            )
+        })
 })
 
 app.get("/api/persons/:id", (request, response, next) => {
@@ -48,7 +52,7 @@ app.delete("/api/persons/:id", (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
     const body = request.body
     if (!body.name) {
         return response.status(400).json({ 
@@ -60,21 +64,22 @@ app.post("/api/persons", (request, response) => {
             error: "Error: the number is missing"
         })
     }
-
     const person = new Person({
         name : body.name,
         number : body.number
     })
-    person.save().then(savedPerson => {
-        response.json(savedPerson)
-    })
+    person.save()
+        .then(savedPerson => {
+            response.json(savedPerson)
+        })
+        .catch((error) => next(error))
 })
 
 app.put("/api/person/:id", (request, response, next) => {
     const body = request.body;
     const id = request.params.id;
     const person = new Person({
-        name : body.content,
+        name : body.name,
         number : body.number
     })
     Person.findByIdAndUpdate(id, person, { new : true })

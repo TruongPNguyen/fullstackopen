@@ -55,12 +55,6 @@ app.post("/api/persons", (request, response) => {
             error: "Error: the name is missing" 
         })
     }
-    /* const nameExist = persons.find((person) => person.name === body.name)
-    if (nameExist) {
-        return response.status(400).json({
-            error: "Error: name must be unique"
-        })
-    } */
     if (!body.number) {
         return response.status(400).json({ 
             error: "Error: the number is missing"
@@ -83,9 +77,9 @@ app.put("/api/person/:id", (request, response, next) => {
         name : body.content,
         number : body.number
     })
-    Person.findByIdAndUpdate(id, note, { new : true})
+    Person.findByIdAndUpdate(id, person, { new : true })
         .then(updatedPerson => {
-            response.json(updatedNote)
+            response.json(updatedPerson)
         })
         .catch(error => next(error))
 })

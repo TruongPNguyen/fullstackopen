@@ -18,7 +18,14 @@ const personSchema = new mongoose.Schema({
         minLength: 3,
         required : true
     },
-    number : String, 
+    number : {
+        type : String,
+        validate : (number) => {
+            return /^\d{2,3}-\d{5,}$/.test(number) && number.length >= 8;
+        },
+        message : "Invalid number format. XX-XXXXXX... or XXX-XXXXX...",
+        required : true
+    } 
 })
 
 const Person = mongoose.model('Person', personSchema)

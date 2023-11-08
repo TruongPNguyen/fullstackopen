@@ -75,7 +75,7 @@ app.post("/api/persons", (request, response, next) => {
         .catch((error) => next(error))
 })
 
-app.put("/api/person/:id", (request, response, next) => {
+app.put("/api/persons/:id", (request, response, next) => {
     const body = request.body;
     const id = request.params.id;
     const person = new Person({

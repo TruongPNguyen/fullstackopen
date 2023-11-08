@@ -30,7 +30,6 @@ const App = () => {
       name : newName,
       number : newNumber
     }
-    
     const exist = persons.some(person => person.name === newName)
     if (exist) {
       if (window.confirm(`${newName} is already added to phonebook, replace old number with new one?`)) {

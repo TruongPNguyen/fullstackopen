@@ -60,9 +60,13 @@ const App = () => {
       .add(nameObject)
       .then(response => {
         setPersons(persons.concat(response))
+        setNewMessage(`${nameObject.name} is added to the phonebook`)
+        setNewMessageType('success')
       })
-      setNewMessage(`${nameObject.name} is added to the phonebook`)
-      setNewMessageType('success')
+      .catch(error => {
+        setNewMessage(`Error : ${error.response.data.error}`)
+        setNewMessageType('error')
+      })
       setTimeout(() => {
         setNewMessage(null)
         setNewMessageType(null)
